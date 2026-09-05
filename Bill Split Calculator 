@@ -1,0 +1,9 @@
+print('Daily Expensive Tracker!')
+bill_amount=float(input('Enter the bill amount:'))
+tip_percentage=float(input('Enter the tip percentage:'))
+tip_amount=(tip_percentage/100)*bill_amount
+total_amount=tip_amount+bill_amount
+print(f'Total bill: ${total_amount}')
+total_person=float(input('Total person:'))
+amount_per_person=total_amount/total_person
+print(f'Amount per Person: ${amount_per_person}')
