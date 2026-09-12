@@ -1,0 +1,100 @@
+def display_menu():
+    print('Welcome to the Contact Book Application!')
+    print('1. Add new contact')
+    print('2. View contact')
+    print('3. Edit contacts')
+    print('4. Lists all contacts')
+    print('5. Delete contact')
+    print('6. Exit')
+    
+def add_contact(contact_book):
+    name = input('Enter Name')
+    if name in contact_book:
+        print('Contact already existed!')
+        return
+    phone = input('Enter phone number')
+    email = input('Enter the email address')
+    address = input('Enter the home address')
+    contact_book[name] = {
+        'phone': phone ,
+        'email': email , 
+        'address': address
+    }
+    print('Contact added successfully!')
+
+def view_contact(contact_book):
+    name = input('Enter Name:')
+    if name in contact_book:
+        contact = contact_book[name]
+        print(f"Name: {name}")
+        print(f"Phone: {contact['phone']}")
+        print(f"Email: {contact['email']}")
+        print(f"Address: {contact['address']}")
+    else:
+        print("Contact not found!")
+
+def edit_contact(contact_book):
+    name = input('Enter Name')
+    if name in contact_book:
+        phone = input('Enter the phone number')
+        email = input('Enter the email address')
+        address = input('Enter the home address')
+        
+        if phone == '':
+            phone = contact_book[name]['phone']
+            
+        if email == '':
+            email = contact_book[name]['email']
+        
+        if address == '':
+            address = contact_book[name]['address']
+        
+        print('Contact Updated Successfully!')
+        
+    else:
+        print('No contact found!')
+
+def lists_all_contacts(contact_book):
+    if not contact_book:
+        print('No Contacts Available!')
+    else:
+        for name , details in contact_book.items():
+            print(f'Name: {name}')
+            print(f"Phone: {details['phone']}")
+            print(f"Email: {details['email']}")
+            print(f"Address: {details['address']}")
+            print()
+
+def delete_contact(contact_book):
+    name = input('Enter Name')
+    if name in contact_book:
+        del contact_book[name]
+        print('Contact Deleted Successfully!')
+
+contact_book = {}
+
+while True:
+    display_menu()
+    choice = input('Enter the Respected Number:')
+    
+    if choice == '1':
+        add_contact(contact_book)
+    
+    elif choice == '2':
+        view_contact(contact_book)
+        
+    elif choice == '3':
+        edit_contact(contact_book)
+        
+    elif choice == '4':
+        lists_all_contacts(contact_book)
+        
+    elif choice == '5':
+        delete_contact(contact_book)
+    
+    elif choice == '6':
+        print('Thanks For Visiting! Exiting....')
+        break
+    
+    else:
+        print('Invalid Choice! Please Try Again.')
