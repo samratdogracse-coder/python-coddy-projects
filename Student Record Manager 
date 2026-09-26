@@ -1,0 +1,153 @@
+# Student Record Manager
+
+student_records = {}
+
+def display_menu():
+    print(f'\nWelcome to Student Record Manager!')
+    print('\nMenu:')
+    print('1. Add Student')
+    print('2. Add Grade')
+    print('3. Is Enrolled')
+    print('4. Calculate Average Grade')
+    print('5. List Student By Course')
+    print('6. Top Students')
+    print('7. Exit')
+
+
+def add_student(name, age, courses):
+    if name in student_records:
+        print(f"Student '{name}' already exists.")
+        return
+
+    student_records[name] = {
+        "age": age,
+        "grades": set(),
+        "courses": set(courses)
+    }
+
+    print(f"Student '{name}' added successfully.")
+
+
+def add_grade(name, grade):
+    if name not in student_records:
+        print(f"Student '{name}' not found.")
+        return
+
+    student_records[name]["grades"].add(grade)
+    print(f"Grade {grade} added for student '{name}'.")
+
+
+def is_enrolled(name, course):
+    if name not in student_records:
+        print(f"Student '{name}' not found.")
+        return False
+
+    return course in student_records[name]["courses"]
+
+
+def calculate_average_grade(name):
+    if name not in student_records:
+        print(f"Student '{name}' not found.")
+        return None
+
+    grades = student_records[name]["grades"]
+
+    if not grades:
+        return 0
+
+    return sum(grades) / len(grades)
+
+
+def list_students_by_course(course):
+    students_in_course = []
+
+    for name, details in student_records.items():
+        if course in details["courses"]:
+            students_in_course.append(name)
+
+    return students_in_course
+
+
+def filter_top_students(threshold):
+    top_students = []
+
+    for name in student_records:
+        average = calculate_average_grade(name)
+
+        if average is not None and average > threshold:
+            top_students.append(name)
+
+    return top_students
+
+
+# Main Program
+
+while True:
+    display_menu()
+
+    choice = input('Enter the choice: ')
+
+    if choice == '1':
+        name = input('Enter student name: ')
+        age = int(input('Enter student age: '))
+
+        courses = input('Enter courses (comma separated): ')
+        courses = courses.split(',')
+
+        courses = [course.strip() for course in courses]
+
+        add_student(name, age, courses)
+
+    elif choice == '2':
+        name = input('Enter student name: ')
+        grade = float(input('Enter grade: '))
+
+        add_grade(name, grade)
+
+    elif choice == '3':
+        name = input('Enter student name: ')
+        course = input('Enter course name: ')
+
+        if is_enrolled(name, course):
+            print(f"{name} is enrolled in {course}.")
+        elif name in student_records:
+            print(f"{name} is not enrolled in {course}.")
+
+    elif choice == '4':
+        name = input('Enter student name: ')
+
+        average = calculate_average_grade(name)
+
+        if average is not None:
+            print(f"Average grade of {name}: {average}")
+
+    elif choice == '5':
+        course = input('Enter course name: ')
+
+        students = list_students_by_course(course)
+
+        if students:
+            print(f"Students enrolled in {course}:")
+            for name in students:
+                print(name)
+        else:
+            print(f"No students found in {course}.")
+
+    elif choice == '6':
+        threshold = float(input('Enter grade threshold: '))
+
+        top_students = filter_top_students(threshold)
+
+        if top_students:
+            print('Top Students:')
+            for name in top_students:
+                print(name)
+        else:
+            print('No top students found.')
+
+    elif choice == '7':
+        print('Thanks for Visiting. Exiting.....!')
+        break
+
+    else:
+        print('Invalid Choice. Pls Try Again!')
