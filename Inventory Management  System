@@ -1,0 +1,110 @@
+
+print("WELCOME TO INVENTORY MANAGEMENT SYSTEM")
+print("----------------------------------------")
+
+inventory = {}
+
+while True:
+
+    print("\n1. Add Item")
+    print("2. Update Stock")
+    print("3. Check Availability")
+    print("4. Sales Report")
+    print("5. Exit")
+
+    choice = input("\nEnter your choice: ")
+
+    # 1. Add Item
+    if choice == "1":
+
+        item = input("Enter item name: ")
+
+        if item in inventory:
+            print("Error: Item already exists.")
+
+        else:
+            price = float(input("Enter item price: "))
+            stock = int(input("Enter item stock: "))
+
+            if price < 0 or stock < 0:
+                print("Error: Price and stock cannot be negative.")
+
+            else:
+                inventory[item] = {
+                    "price": price,
+                    "stock": stock
+                }
+
+                print("Item added successfully!")
+
+    # 2. Update Stock
+    elif choice == "2":
+
+        item = input("Enter item name: ")
+
+        if item not in inventory:
+            print("Error: Item not found.")
+
+        else:
+            quantity = int(input("Enter quantity (+ to add, - to remove): "))
+
+            new_stock = inventory[item]["stock"] + quantity
+
+            if new_stock < 0:
+                print("Error: Insufficient stock.")
+
+            else:
+                inventory[item]["stock"] = new_stock
+                print("Stock updated successfully!")
+
+    # 3. Check Availability
+    elif choice == "3":
+
+        item = input("Enter item name: ")
+
+        if item not in inventory:
+            print("Error: Item not found.")
+
+        else:
+            print("Item:", item)
+            print("Price:", inventory[item]["price"])
+            print("Available Stock:", inventory[item]["stock"])
+
+    # 4. Sales Report
+    elif choice == "4":
+
+        item = input("Enter item name: ")
+
+        if item not in inventory:
+            print("Error: Item not found.")
+
+        else:
+            quantity = int(input("Enter quantity sold: "))
+
+            if quantity <= 0:
+                print("Error: Enter a positive quantity.")
+
+            elif quantity > inventory[item]["stock"]:
+                print("Error: Insufficient stock.")
+
+            else:
+                total = quantity * inventory[item]["price"]
+
+                inventory[item]["stock"] -= quantity
+
+                print("Sales Report")
+                print("Item:", item)
+                print("Quantity Sold:", quantity)
+                print("Total Revenue: $", total)
+
+    # 5. Exit
+    elif choice == "5":
+
+        print("Exiting Successfully!")
+        break
+
+    else:
+        print("Invalid Choice. Try Again!")
+
+print("\nFinal Inventory:")
+print(inventory)
